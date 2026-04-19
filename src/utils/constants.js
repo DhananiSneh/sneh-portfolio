@@ -1,52 +1,60 @@
 // Skills data with icons and proficiency
 export const skills = [
-  { name: 'Python', level: 90, category: 'programming', icon: '🐍' },
-  { name: 'Machine Learning', level: 85, category: 'ai', icon: '🤖' },
-  { name: 'Deep Learning', level: 80, category: 'ai', icon: '🧠' },
-  { name: 'TensorFlow', level: 75, category: 'framework', icon: '🔮' },
-  { name: 'PyTorch', level: 70, category: 'framework', icon: '🔥' },
-  { name: 'Data Science', level: 85, category: 'data', icon: '📊' },
+  // Programming
+  { name: 'Python', level: 85, category: 'programming', icon: '🐍' },
+  { name: 'Java', level: 80, category: 'programming', icon: '☕' },
+  { name: 'JavaScript', level: 70, category: 'programming', icon: '💛' },
+  { name: 'PHP', level: 75, category: 'programming', icon: '🐘' },
+  // AI/ML
+  { name: 'Machine Learning', level: 75, category: 'ai', icon: '🤖' },
+  { name: 'Data Science', level: 70, category: 'ai', icon: '📊' },
+  { name: 'NumPy/Pandas', level: 75, category: 'ai', icon: '🔢' },
+  { name: 'TensorFlow', level: 60, category: 'ai', icon: '🔮' },
+  // Frontend
   { name: 'HTML/CSS', level: 90, category: 'frontend', icon: '🌐' },
-  { name: 'JavaScript', level: 75, category: 'frontend', icon: '💛' },
-  { name: 'React', level: 70, category: 'frontend', icon: '⚛️' },
-  { name: 'SQL', level: 80, category: 'database', icon: '🗄️' },
-  { name: 'Git', level: 85, category: 'tools', icon: '📦' },
-  { name: 'Linux', level: 70, category: 'tools', icon: '🐧' },
+  { name: 'Bootstrap', level: 85, category: 'frontend', icon: '🅱️' },
+  { name: 'React', level: 65, category: 'frontend', icon: '⚛️' },
+  // Backend
+  { name: 'Laravel', level: 75, category: 'backend', icon: '🔶' },
+  { name: 'SQL', level: 80, category: 'backend', icon: '🗄️' },
+  // Tools
+  { name: 'Git', level: 80, category: 'tools', icon: '📦' },
+  { name: 'Docker', level: 50, category: 'tools', icon: '🐳' },
 ]
 
 // Projects data
 export const projects = [
   {
-    title: 'Neural Network Visualizer',
-    description: 'Interactive 3D visualization of neural network architectures. Watch data flow through layers in real-time.',
-    tech: ['Python', 'TensorFlow', 'Three.js', 'React'],
+    title: 'House Price Predictor',
+    description: 'ML model predicting house prices using linear regression with 92% accuracy on test data.',
+    tech: ['Python', 'Scikit-learn', 'Pandas', 'Matplotlib'],
     github: 'https://github.com',
     live: 'https://demo.com',
     featured: true,
-    gradient: 'from-cyan-500 to-purple-500',
+    gradient: 'from-cyan-500 to-blue-500',
   },
   {
-    title: 'ML Model Deployment API',
-    description: 'RESTful API for deploying and serving machine learning models with auto-scaling capabilities.',
-    tech: ['Python', 'FastAPI', 'Docker', 'AWS'],
+    title: 'Student Management System',
+    description: 'Full-stack web app for managing student records, attendance, and grades. Built with Laravel.',
+    tech: ['PHP', 'Laravel', 'MySQL', 'Bootstrap'],
     github: 'https://github.com',
     live: 'https://demo.com',
     featured: true,
     gradient: 'from-purple-500 to-pink-500',
   },
   {
-    title: 'Data Analysis Dashboard',
-    description: 'Interactive dashboard for analyzing datasets with beautiful visualizations and insights.',
-    tech: ['Python', 'Pandas', 'Matplotlib', 'Streamlit'],
+    title: 'Titanic Survival Classifier',
+    description: 'Binary classification model predicting passenger survival on the Titanic dataset using Random Forest.',
+    tech: ['Python', 'Scikit-learn', 'Pandas', 'Seaborn'],
     github: 'https://github.com',
     live: 'https://demo.com',
-    featured: false,
+    featured: true,
     gradient: 'from-green-500 to-cyan-500',
   },
   {
-    title: 'Image Classification System',
-    description: 'CNN-based image classifier trained on custom datasets with high accuracy.',
-    tech: ['Python', 'PyTorch', 'OpenCV', 'Flask'],
+    title: 'Portfolio Website',
+    description: 'This portfolio! A futuristic 3D-enhanced site showcasing AI/ML projects and skills.',
+    tech: ['React', 'Three.js', 'Tailwind CSS', 'Framer Motion'],
     github: 'https://github.com',
     live: 'https://demo.com',
     featured: false,
@@ -56,10 +64,10 @@ export const projects = [
 
 // Social links
 export const socialLinks = [
-  { name: 'GitHub', url: 'https://github.com', icon: 'GitHub' },
-  { name: 'LinkedIn', url: 'https://linkedin.com', icon: 'LinkedIn' },
-  { name: 'Twitter', url: 'https://twitter.com', icon: 'Twitter' },
-  { name: 'Email', url: 'mailto:sneh@example.com', icon: 'Email' },
+  { name: 'GitHub', url: 'https://github.com/sneh', icon: 'GitHub' },
+  { name: 'LinkedIn', url: 'https://linkedin.com/in/sneh', icon: 'LinkedIn' },
+  { name: 'Twitter', url: 'https://twitter.com/sneh', icon: 'Twitter' },
+  { name: 'Email', url: 'mailto:sneh@email.com', icon: 'Email' },
 ]
 
 // Navigation links
