@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && node -e \"require('fs').writeFileSync('dist/.nojekyll', '')\" && cd dist && git init && git add . && git commit -m \"deploy\" && git push --force https://github.com/DhananiSneh/sneh-portfolio.git master:gh-pages"
   },
   "dependencies": {
     "@react-three/drei": "^9.88.0",
