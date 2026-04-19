@@ -1,8 +1,5 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, Suspense } from 'react'
 import { motion } from 'framer-motion'
-import NeuralNetwork from '../3d/NeuralNetwork'
-import ParticleField from '../3d/ParticleField'
-import FloatingShapes from '../3d/FloatingShapes'
 
 export default function Hero({ mouse }) {
   const [typedText, setTypedText] = useState('')
@@ -22,16 +19,44 @@ export default function Hero({ mouse }) {
   }, [])
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* 3D Background */}
-      <ParticleField mouse={mouse} />
-      <FloatingShapes mouse={mouse} />
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-cyber-dark">
+      {/* Animated Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-cyber-dark via-cyber-purple/10 to-cyber-cyan/10 animate-pulse" />
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyber-dark/50 to-cyber-dark z-10" />
+      {/* Animated Grid */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(#00f5ff20 1px, transparent 1px), linear-gradient(90deg, #00f5ff20 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }} />
+      </div>
+
+      {/* Floating Particles Effect */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-cyber-cyan rounded-full opacity-30"
+            initial={{
+              x: Math.random() * 100 + '%',
+              y: Math.random() * 100 + '%'
+            }}
+            animate={{
+              x: [null, Math.random() * 100 + '%'],
+              y: [null, Math.random() * 100 + '%'],
+              opacity: [0.1, 0.5, 0.1]
+            }}
+            transition={{
+              duration: 5 + Math.random() * 5,
+              repeat: Infinity,
+              ease: 'linear'
+            }}
+          />
+        ))}
+      </div>
 
       {/* Content */}
-      <div className="relative z-20 text-center px-4">
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         {/* Glowing Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -50,7 +75,7 @@ export default function Hero({ mouse }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4"
+          className="text-6xl md:text-7xl lg:text-8xl font-bold mb-4"
         >
           <span className="bg-gradient-to-r from-cyber-cyan via-cyber-purple to-cyber-green bg-clip-text text-transparent">
             Sneh
@@ -64,7 +89,7 @@ export default function Hero({ mouse }) {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mb-8"
         >
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-mono text-cyber-cyan typewriter-cursor">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-mono text-cyber-cyan">
             {typedText}
             <span className="animate-pulse">|</span>
           </h2>
@@ -95,41 +120,30 @@ export default function Hero({ mouse }) {
             Get in Touch
           </a>
         </motion.div>
+      </div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-        >
-          <div className="flex flex-col items-center">
-            <span className="text-xs text-gray-500 mb-2 font-mono">Scroll</span>
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.2 }}
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+      >
+        <div className="flex flex-col items-center">
+          <span className="text-xs text-gray-500 mb-2 font-mono">Scroll</span>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-5 h-8 border-2 border-cyber-cyan/50 rounded-full flex justify-center"
+          >
             <motion.div
-              animate={{ y: [0, 10, 0] }}
+              animate={{ y: [0, 12, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-5 h-8 border-2 border-cyber-cyan/50 rounded-full flex justify-center"
-            >
-              <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="w-1 h-2 bg-cyber-cyan rounded-full mt-1"
-              />
-            </motion.div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* 3D Neural Network Overlay */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        <Canvas
-          camera={{ position: [0, 0, 6], fov: 60 }}
-          dpr={[1, 1.5]}
-          style={{ opacity: 0.6 }}
-        >
-          <NeuralNetwork mouse={mouse} />
-        </Canvas>
-      </div>
+              className="w-1 h-2 bg-cyber-cyan rounded-full mt-1"
+            />
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   )
 }
