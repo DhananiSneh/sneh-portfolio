@@ -1,144 +1,66 @@
-import { useRef, useMemo } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Float, Text } from '@react-three/drei'
-import * as THREE from 'three'
-
-function SkillSphere({ position, skill, color, onHover }) {
-  const meshRef = useRef()
-  const [hovered, setHovered] = useState(false)
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.3
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.4
-    }
-  })
-
-  return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-      <group
-        position={position}
-        onPointerOver={() => { setHovered(true); onHover(skill) }}
-        onPointerOut={() => setHovered(false)}
-      >
-        <mesh ref={meshRef}>
-          <icosahedronGeometry args={[0.4, 1]} />
-          <meshBasicMaterial
-            color={color}
-            wireframe
-            transparent
-            opacity={hovered ? 1 : 0.7}
-          />
-        </mesh>
-        <mesh>
-          <sphereGeometry args={[0.35, 32, 32]} />
-          <meshBasicMaterial
-            color={color}
-            transparent
-            opacity={hovered ? 0.3 : 0.1}
-          />
-        </mesh>
-        <Text
-          position={[0, 0.7, 0]}
-          fontSize={0.15}
-          color="#e0e0e0"
-          anchorX="center"
-          anchorY="middle"
-        >
-          {skill}
-        </Text>
-      </group>
-    </Float>
-  )
-}
-
-function ConnectionLine({ start, end }) {
-  const ref = useRef()
-
-  useFrame((state) => {
-    if (ref.current) {
-      ref.current.material.opacity = 0.1 + Math.sin(state.clock.elapsedTime * 2) * 0.1
-    }
-  })
-
-  return (
-    <line ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={2}
-          array={new Float32Array([...start, ...end])}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <lineBasicMaterial color="#00f5ff" transparent opacity={0.2} />
-    </line>
-  )
-}
-
-function Constellation({ skills, onHover }) {
-  const groupRef = useRef()
-
-  const positions = useMemo(() => {
-    return skills.map((skill, i) => {
-      const angle = (i / skills.length) * Math.PI * 2
-      const radius = 3
-      return [
-        Math.cos(angle) * radius,
-        Math.sin(angle * 0.5) * 1.5,
-        Math.sin(angle) * radius
-      ]
-    })
-  }, [skills])
-
-  const connections = useMemo(() => {
-    const conns = []
-    for (let i = 0; i < positions.length; i++) {
-      const next = (i + 1) % positions.length
-      conns.push({ start: positions[i], end: positions[next] })
-    }
-    return conns
-  }, [positions])
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.1
-    }
-  })
-
-  const colors = ['#00f5ff', '#bf00ff', '#00ff88', '#ff00ff', '#ffff00']
-
-  return (
-    <group ref={groupRef}>
-      {positions.map((pos, i) => (
-        <SkillSphere
-          key={i}
-          position={pos}
-          skill={skills[i]}
-          color={colors[i % colors.length]}
-          onHover={onHover}
-        />
-      ))}
-      {connections.map((conn, i) => (
-        <ConnectionLine key={i} start={conn.start} end={conn.end} />
-      ))}
-    </group>
-  )
-}
+import { useRef, useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { skills } from '../utils/constants'
 
 export default function SkillOrbs({ skills = [], onHover }) {
   return (
-    <div className="w-full h-full">
-      <Canvas
-        camera={{ position: [0, 0, 8], fov: 60 }}
-        dpr={[1, 2]}
-      >
-        <ambientLight intensity={0.5} />
-        <Constellation
-          skills={skills.length > 0 ? skills : ['Python', 'ML', 'DL', 'TF', 'PT', 'DS']}
-          onHover={onHover}
+    <div className="w-full h-full flex items-center justify-center relative">
+      {/* Animated Skill Rings */}
+      <div className="relative w-64 h-64">
+        {/* Outer Ring */}
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-0 border-2 border-cyber-cyan/30 rounded-full"
         />
-      </Canvas>
+        {/* Middle Ring */}
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-8 border border-cyber-purple/30 rounded-full"
+        />
+        {/* Inner Ring */}
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-16 border border-cyber-green/30 rounded-full"
+        />
+
+        {/* Center Icon */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-16 h-16 rounded-full bg-cyber-dark/80 border border-cyber-cyan/50 flex items-center justify-center"
+          >
+            <span className="text-3xl">🤖</span>
+          </motion.div>
+        </div>
+
+        {/* Floating Skill Icons */}
+        {skills.slice(0, 6).map((skill, i) => {
+          const angle = (i / 6) * Math.PI * 2
+          const radius = 100
+          return (
+            <motion.div
+              key={skill.name || i}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.1 }}
+              className="absolute w-12 h-12 rounded-full bg-cyber-dark/80 border border-cyber-cyan/30 flex items-center justify-center cursor-pointer"
+              style={{
+                left: `calc(50% + ${Math.cos(angle) * radius}px - 24px)`,
+                top: `calc(50% + ${Math.sin(angle) * radius}px - 24px)`,
+              }}
+              onMouseEnter={() => onHover && onHover(skill.name || skill)}
+              onMouseLeave={() => onHover && onHover(null)}
+              whileHover={{ scale: 1.2 }}
+            >
+              <span className="text-xl">{skill.icon || '📊'}</span>
+            </motion.div>
+          )
+        })}
+      </div>
     </div>
   )
 }
